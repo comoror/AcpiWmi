@@ -1,0 +1,48 @@
+//
+// Wmi internal classes
+
+
+class WMIEvent : __ExtrinsicEvent
+{
+};
+
+
+[WMI,
+ Dynamic,
+ Provider("WmiProv"),
+ Locale("MS\\0x409"),
+ Description("Class used to operate methods on a ULong Event"),
+ guid("{8EC32B9D-EC6B-4138-91E8-8EB30C092E95}")
+]
+class AcpiWmi_MyMethod
+{
+    [key, read]
+     string InstanceName;
+    [read] boolean Active;
+
+    [WmiMethodId(1),
+     Implemented,
+     read, write,
+     Description("Generate an event containing ULong data")
+    ] void FireEvent([in, Description("WMI requires a parameter")] uint32 Hack);
+
+};
+
+[WMI,
+ Dynamic,
+ Provider("WmiProv"),
+ Description("Class containing event generated ULong data"),
+ Locale("MS\\0x409"),
+ guid("{48149424-41F4-4D93-A725-F0E5C4724F8A}")
+]
+class AcpiWmi_MyEvent : WmiEvent
+{
+    [key, read]
+     string InstanceName;
+    [read] boolean Active;
+
+    [WmiDataId(1),
+     read, write,
+     Description("ULong Data")
+    ] uint32 ULong;
+};
